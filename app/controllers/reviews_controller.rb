@@ -1,12 +1,12 @@
 class ReviewsController < ApplicationController
     def index
-        @reviews = Review.all
-        render json: @reviews, include: {user: {only: [:name]}, movie: {only: [:title,:genre]}}
+        reviews = Review.all
+        render json: ReviewSerializer.new(reviews).to_serialized_json
     end
 
     def show
         review = Review.find(params[:id])
-        render json: review
+        render json: ReviewSerializer.new(review).to_serialized_json
     end
 
     def create
@@ -17,7 +17,7 @@ class ReviewsController < ApplicationController
             user: user,
             movie: movie
         )
-        render json: review, include: {user: {only: [:name]}, movie: {only: [:title,:genre]}}
+        render json: ReviewSerializer.new(review).to_serialized_json
     end
 
     def update
@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
             user: user,
             movie: movie
         )
-        render json: review, include: {user: {only: [:name]}, movie: {only: [:title,:genre]}}
+        render json: ReviewSerializer.new(review).to_serialized_json
     end
 
     def destroy
